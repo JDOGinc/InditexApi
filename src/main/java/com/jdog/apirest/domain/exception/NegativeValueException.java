@@ -1,0 +1,7 @@
+package com.jdog.apirest.domain.exception;
+
+public class NegativeValueException extends RuntimeException{
+    public NegativeValueException(String message) {
+        super(message);
+    }
+}
