@@ -1,6 +1,4 @@
 package com.jdog.apirest.domain.model;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jdog.apirest.domain.decorators.ProductScore;
 import com.jdog.apirest.domain.exception.EmptyValueException;
 import com.jdog.apirest.domain.exception.NegativeValueException;
 import org.springframework.data.annotation.AccessType;
@@ -25,27 +23,15 @@ public class Product {
     // Constructor
     private Product() {
     }
-    Product(int id, String name) {
+    protected Product(int id, String name) {
         setId(id);
         this.name = name;
         createDefaultStock();
     }
-    private Product(int id, String name, Stock stock) {
+    protected Product (int id, String name, Map<Size, Integer> sizesStockMap, int salesUnits) {
         setId(id);
         this.name = name;
-        this.stock = stock;
-    }
-    //Factory methods
-    public static Product createWithStock(int id, String name, int salesUnits, Map<Size,Integer> sizesStockMap) {
-        if (id < 0) throw new IllegalArgumentException("Invalid id");
-        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Invalid name");
-        Stock stock = new Stock(sizesStockMap, salesUnits);
-        return new Product(id, name, stock);
-    }
-    public static Product createWithDefaultStock(int id, String name) {
-        if (id < 0) throw new IllegalArgumentException("Invalid id");
-        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Invalid name");
-        return new Product(id, name);
+        this.stock = new Stock(sizesStockMap, salesUnits);
     }
     private void createDefaultStock(){
         Map<Size, Integer> sizesStockMap = Arrays.stream(Size.values())
@@ -138,9 +124,6 @@ public class Product {
             return sizesStock;
         }
 
-        public void setSizesStock(Map<Size, Integer> sizesStock) {
-            this.sizesStock = sizesStock;
-        }
 
         public int getSalesUnits() {
             return salesUnits;
