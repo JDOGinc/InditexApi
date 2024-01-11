@@ -21,7 +21,7 @@ public class Product {
     private Stock stock;
 
     // Constructor
-    private Product() {
+    protected Product() {
     }
     protected Product(int id, String name) {
         setId(id);

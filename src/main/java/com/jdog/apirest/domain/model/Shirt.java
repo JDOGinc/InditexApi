@@ -10,6 +10,9 @@ import java.util.Map;
 public class Shirt extends Product {
     private String type;
 
+    private Shirt() {
+        super();
+    }
     private Shirt(int id, String name, String type) {
         super(id, name);
         this.type = type;

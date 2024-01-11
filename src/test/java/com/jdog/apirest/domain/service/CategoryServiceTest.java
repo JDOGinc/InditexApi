@@ -26,7 +26,6 @@ class CategoryServiceTest {
 
     @BeforeEach
     void setUp() {
-        productService = new ProductService();
         categoryService = new CategoryService(categoryRepository, productService);
         Map<Size,Integer> sizesStockMap1 = new HashMap<>(){{
             put(Size.S, 4);

@@ -40,7 +40,6 @@ public class CategoryApplicationServiceTest {
     @BeforeEach
     void setUp() {
 
-        productService = new ProductService();
         categoryService = new CategoryService(categoryRepository, productService);
         categoryApplicationService = new CategoryApplicationService(categoryService);
 
