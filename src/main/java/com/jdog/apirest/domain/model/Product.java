@@ -1,6 +1,4 @@
 package com.jdog.apirest.domain.model;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jdog.apirest.domain.decorators.ProductScore;
 import com.jdog.apirest.domain.exception.EmptyValueException;
 import com.jdog.apirest.domain.exception.NegativeValueException;
 import org.springframework.data.annotation.AccessType;
@@ -29,11 +27,6 @@ public class Product {
         setId(id);
         this.name = name;
         createDefaultStock();
-    }
-    protected Product(int id, String name, Stock stock) {
-        setId(id);
-        this.name = name;
-        this.stock = stock;
     }
     protected Product (int id, String name, Map<Size, Integer> sizesStockMap, int salesUnits) {
         setId(id);
@@ -131,9 +124,6 @@ public class Product {
             return sizesStock;
         }
 
-        public void setSizesStock(Map<Size, Integer> sizesStock) {
-            this.sizesStock = sizesStock;
-        }
 
         public int getSalesUnits() {
             return salesUnits;

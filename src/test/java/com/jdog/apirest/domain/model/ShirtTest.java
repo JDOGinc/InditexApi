@@ -30,7 +30,7 @@ public class ShirtTest {
     }
     @Test
     public void whenSetNegativeId_thenThrowsException() {
-        assertThrows(IllegalArgumentException.class,  ()-> {Shirt.createWithDefaultStock(-1, name,"SHIRT");});
+        assertThrows(IllegalArgumentException.class,  ()-> Shirt.createWithDefaultStock(-1, name,"SHIRT"));
     }
 
     @Test

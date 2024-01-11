@@ -6,7 +6,6 @@ import com.jdog.apirest.domain.model.Product;
 import com.jdog.apirest.domain.model.Shirt;
 import com.jdog.apirest.domain.model.Size;
 import com.jdog.apirest.domain.repository.CategoryRepository;
-import com.jdog.apirest.domain.repository.ProductRepository;
 import com.jdog.apirest.domain.service.CategoryService;
 import com.jdog.apirest.domain.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
@@ -111,9 +110,7 @@ public class CategoryApplicationServiceTest {
     public void whenWeightIsNegative_thenThrowsException() {
         // Assert - Act
         int negativeWeight = -1;
-        assertThrows(IllegalArgumentException.class, () -> {
-            categoryApplicationService.getSortedShirt(negativeWeight, negativeWeight);
-        });
+        assertThrows(IllegalArgumentException.class, () -> categoryApplicationService.getSortedShirt(negativeWeight, negativeWeight));
     }
 
 }

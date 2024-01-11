@@ -7,7 +7,6 @@ import com.jdog.apirest.domain.model.Size;
 import com.jdog.apirest.domain.repository.CategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.util.*;
@@ -25,7 +24,6 @@ class CategoryServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
 
-    Category category;
     @BeforeEach
     void setUp() {
         productService = new ProductService();
