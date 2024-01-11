@@ -11,8 +11,9 @@ public class ProductService {
     }
 
     public double calculateScore(Product product, double salesWeight, double stockWeight) {
-        if (salesWeight < 0 || stockWeight < 0) {
-            throw new IllegalArgumentException("Negative Weight");
+
+        if (salesWeight < 0 || stockWeight < 0 || product == null) {
+            throw new IllegalArgumentException("Invalid arguments");
         }
         ProductScore productScore = new ProductScoreStandard();
         productScore = new ProductScoreSalesCriterion(productScore, salesWeight);
