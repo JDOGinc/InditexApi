@@ -1,51 +1,32 @@
 package com.jdog.apirest.domain.model;
-import com.jdog.apirest.domain.exception.EmptyValueException;
-import com.jdog.apirest.domain.exception.NegativeValueException;
-import org.springframework.data.annotation.AccessType;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-/**
- * Product class, contains the product id, name and stock
- * represents a product in the system
- */
-@Document(collection = "Products")
-@AccessType(AccessType.Type.FIELD)
 public class Product {
     private int id;
     private String name;
-    private Stock stock;
-
-    // Constructor
-    protected Product() {
+    private Map<Size, Integer> stock;
+    private int salesUnits;
+    private double productScore;
+    private Product() {
     }
-    protected Product(int id, String name) {
-        setId(id);
+
+    private Product(int id, String name, Map<Size, Integer> stock, int salesUnits) {
+        this.id = id;
         this.name = name;
-        createDefaultStock();
+        this.stock = stock;
+        this.salesUnits = salesUnits;
+        this.productScore = 0;
     }
-    protected Product (int id, String name, Map<Size, Integer> sizesStockMap, int salesUnits) {
-        setId(id);
-        this.name = name;
-        this.stock = new Stock(sizesStockMap, salesUnits);
-    }
-    private void createDefaultStock(){
-        Map<Size, Integer> sizesStockMap = Arrays.stream(Size.values())
-                .collect(Collectors.toMap(size -> size, size -> 0));
-        this.stock = new Stock(sizesStockMap, 0);
+    public static Product create(int id, String name, Map<Size, Integer> stock, int salesUnits) {
+        return new Product(id, name, stock, salesUnits);
     }
 
-
-    // Getters y Setters
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
-        if(id < 0) throw new IllegalArgumentException("Invalid id");
         this.id = id;
     }
 
@@ -54,83 +35,42 @@ public class Product {
     }
 
     public void setName(String name) {
-        if (name == null || name.isEmpty())
-            throw new EmptyValueException("Invalid name");
         this.name = name;
     }
 
-    // Stock methods - Aggregation
-    public Map<Size, Integer> getSizesStockMap() {
+    public Map<Size, Integer> getStock() {
+        return stock;
+    }
 
-        return stock.getSizesStock();
+    public void setStock(Map<Size, Integer> stock) {
+        this.stock = stock;
     }
-    public void  addToMapSizeStock(Size size, int stock){
-        checkDuplicateSize(size);
-        //add size and stock to map
-        this.stock.getSizesStock().put(size, stock);
-    }
-    public void updateSizeStock(Size size, int stock){
-        //validate if size is null, not empty, no duplicated
-        if(size == null || size.getName().isEmpty() || !this.stock.getSizesStock().containsKey(size))
-            throw new IllegalArgumentException("Invalid size");
-        //validate if stock is negative
-        if(stock < 0)
-            throw new NegativeValueException("Invalid stock");
-        //update determined size
-        this.stock.getSizesStock().replace(size, stock);
-    }
-    public void updateSalesUnits(int salesUnits){
-        if(salesUnits < 0)
-            throw new NegativeValueException("Invalid sales units");
-        this.stock.setSalesUnits(salesUnits);
-    }
-    private void checkDuplicateSize(Size size){
-        if(this.stock.getSizesStock().containsKey(size))
-            throw new IllegalArgumentException("Duplicate size in map");
-    }
+
     public int getSalesUnits() {
-        return stock.getSalesUnits();
-    }
-    public int calculateTotalStockCount() {
-        return stock.getSizesStock().values()
-                .stream()
-                .mapToInt(Integer::intValue)
-                .sum();
+        return salesUnits;
     }
 
-    // Inner class static Stock - Aggregation
+    public void setSalesUnits(int salesUnits) {
+        this.salesUnits = salesUnits;
+    }
 
-    /**
-     * Stock class Aggregation, contains a map of sizes and stock and the total sales units
-     * only accessible from {@link Product} class
-     */
+    public void setProductScore(double salesWeight, double stockWeight) {
+        Score productScore = Score.CreateScoreByStockSalesWeight(this, stockWeight, salesWeight);
+        this.productScore = productScore.getScore();
+
+    }
+
+    public double getProductScore() {
+        return productScore;
+    }
+    public double calculateTotalStockCount() {
+        return stock.values().stream().mapToInt(Integer::intValue).sum();
+    }
+
     private static class Stock {
-        @Field("sizes")
         private Map<Size, Integer> sizesStock;
-        @Field("sales_units")
-        private int salesUnits;
-
         // Constructor
         public Stock() {
-        }
-
-        public Stock(Map<Size, Integer> sizesStock, int salesUnits) {
-            this.sizesStock = sizesStock;
-            this.salesUnits = salesUnits;
-        }
-
-        // Getters y Setters
-        public Map<Size, Integer> getSizesStock() {
-            return sizesStock;
-        }
-
-
-        public int getSalesUnits() {
-            return salesUnits;
-        }
-
-        public void setSalesUnits(int salesUnits) {
-            this.salesUnits = salesUnits;
         }
     }
 
