@@ -18,7 +18,4 @@ public class StockDto {
         return sizesStock;
     }
 
-    public void setSizesStock(Map<String, Integer> sizesStock) {
-        this.sizesStock = sizesStock;
-    }
 }
