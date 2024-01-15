@@ -24,8 +24,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     public List<Product> findAll(CriterionScore criteria) {
         List<ProductDto> products = mongoProductRepository.findAll();
 
-
-
         return products.stream()
                 .map(productMapper::toDomain)
                 .sorted(Comparator.comparingDouble((Product p) -> {

@@ -36,8 +36,7 @@ public class Product {
     }
 
     public double calculateScoreByCriteria(CriterionScore criteria) {
-        Score productScore = Score.CreateScoreByCriteria(this, criteria);
-        return productScore.getScore();
+        return criteria.calculateScore(this);
     }
     public double calculateTotalStockCount() {
         return stock.values().stream().mapToInt(Integer::intValue).sum();
