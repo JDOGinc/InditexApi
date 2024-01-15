@@ -8,9 +8,7 @@ public class Score {
     }
 
     public static Score CreateScoreByStockSalesWeight(Product product, double stockWeight, double salesWeight) {
-        if (salesWeight < 0 || stockWeight < 0 || product == null) {
-            throw new IllegalArgumentException("Invalid arguments");
-        }
+        validateWeight(stockWeight, salesWeight);
         CalculateScore score = new CalculateScoreStandard();
         score = new CalculateScoreSalesCriterion(score, salesWeight);
         score = new CalculateScoreStockCriterion(score, stockWeight);
@@ -19,5 +17,12 @@ public class Score {
     }
     public double getScore() {
         return score;
+    }
+
+    private static void validateWeight(double firstWeight, double secondWeight) {
+        double minWeight = 0;
+        if (firstWeight < minWeight || secondWeight < minWeight) {
+            throw new IllegalArgumentException("Invalid weight, cannot be negative");
+        }
     }
 }

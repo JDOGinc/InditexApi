@@ -28,7 +28,7 @@ public class ProductApplicationServiceE2ETest {
                 queryParam("salesWeight", 0.5).
                 queryParam("stockWeight", 0.3).
                 when().
-                get("/products/sort").
+                get("/products/sortProducts").
                 then().
                 assertThat().
                 statusCode(HttpStatus.OK.value()).
@@ -42,7 +42,7 @@ public class ProductApplicationServiceE2ETest {
                 queryParam("salesWeight", -0.1).
                 queryParam("stockWeight", -0.2).
                 when().
-                get("/products/sort").
+                get("/products/sortProducts").
                 then().
                 assertThat().
                 statusCode(HttpStatus.BAD_REQUEST.value());
