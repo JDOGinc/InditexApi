@@ -1,6 +1,6 @@
 package com.jdog.apirest.domain.model;
 
-public class CalculateScoreStandard implements CalculateScore {
+public class CriterionScoreDefault implements CriterionScore {
     @Override
     public double calculateScore(Product product) {
         return 0;

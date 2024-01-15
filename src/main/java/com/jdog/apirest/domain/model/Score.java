@@ -7,13 +7,8 @@ public class Score {
         this.score = score;
     }
 
-    public static Score CreateScoreByStockSalesWeight(Product product, double stockWeight, double salesWeight) {
-        validateWeight(stockWeight, salesWeight);
-        CalculateScore score = new CalculateScoreStandard();
-        score = new CalculateScoreSalesCriterion(score, salesWeight);
-        score = new CalculateScoreStockCriterion(score, stockWeight);
-
-        return new Score(score.calculateScore(product));
+    public static Score CreateScoreByCriteria(Product product, CriterionScore criteria) {
+        return new Score(criteria.calculateScore(product));
     }
     public double getScore() {
         return score;

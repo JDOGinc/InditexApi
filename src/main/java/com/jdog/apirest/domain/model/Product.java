@@ -40,8 +40,8 @@ public class Product {
     public double getScore() {
         return score;
     }
-    public void calculateScoreByStockSales(double salesWeight, double stockWeight) {
-        Score productScore = Score.CreateScoreByStockSalesWeight(this, stockWeight, salesWeight);
+    public void calculateScoreByCriteria(CriterionScore criteria) {
+        Score productScore = Score.CreateScoreByCriteria(this, criteria);
         this.score = productScore.getScore();
     }
     public double calculateTotalStockCount() {

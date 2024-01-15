@@ -1,7 +1,7 @@
 package com.jdog.apirest.infrastructure.web;
 
 import com.jdog.apirest.application.usecase.SortProductsUseCase;
-import com.jdog.apirest.domain.model.Product;
+import com.jdog.apirest.domain.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,14 @@ public class ProductController {
     @GetMapping("/sortProducts")
     public List<Product> sortProducts(@RequestParam double salesWeight, @RequestParam double stockWeight){
         try {
-            return sortProductsUseCase.execute(salesWeight, stockWeight);
+            if (salesWeight < 0 || stockWeight < 0) {
+                throw new IllegalArgumentException("Negative Weight");
+            }
+            CriterionScore criteria = new CriterionScoreDefault();
+            criteria = new CriterionScoreSalesCriterion(criteria, salesWeight);
+            criteria = new CriterionScoreStockCriterion(criteria, stockWeight);
+
+            return sortProductsUseCase.execute(criteria);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Negative Weight");
         }

@@ -1,8 +1,8 @@
 package com.jdog.apirest.infrastructure.persistence;
 
+import com.jdog.apirest.domain.model.*;
 import com.jdog.apirest.infrastructure.dtos.ProductDto;
 import com.jdog.apirest.infrastructure.mapper.ProductMapper;
-import com.jdog.apirest.domain.model.Product;
 import com.jdog.apirest.domain.repository.ProductRepository;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +21,15 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<Product> findAll(double salesWeight , double stockWeight) {
+    public List<Product> findAll(CriterionScore criteria) {
         List<ProductDto> products = mongoProductRepository.findAll();
+
+
 
         return products.stream()
                 .map(productMapper::toDomain)
                 .sorted(Comparator.comparingDouble((Product p) -> {
-                    p.calculateScoreByStockSales(salesWeight, stockWeight);
+                    p.calculateScoreByCriteria(criteria);
                     return p.getScore();
                 }).reversed()).collect(Collectors.toList());
     }

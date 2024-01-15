@@ -1,9 +1,9 @@
 package com.jdog.apirest.domain.model;
 
-public class CalculateScoreSalesCriterion extends CalculateScoreImpl {
+public class CriterionScoreSalesCriterion extends CriterionScoreImpl {
     private double weight;
-    public CalculateScoreSalesCriterion(CalculateScore calculateScore, double weight) {
-        super(calculateScore);
+    public CriterionScoreSalesCriterion(CriterionScore criterionScore, double weight) {
+        super(criterionScore);
         this.weight = weight;
     }
     @Override

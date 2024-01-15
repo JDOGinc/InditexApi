@@ -36,14 +36,12 @@ class ProductTest {
 
     @Test
     void calculateScoreByStockSales() {
-        product.calculateScoreByStockSales(1, 1);
+        CriterionScore criteria = new CriterionScoreDefault();
+        criteria = new CriterionScoreSalesCriterion(criteria, 1);
+        criteria = new CriterionScoreStockCriterion(criteria, 1);
+
+        product.calculateScoreByCriteria(criteria);
         assertEquals(160, product.getScore());
-    }
-    @Test
-    void whenCalculateScoreWithWeightNegative_thenGetException() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            product.calculateScoreByStockSales(-1, -1);
-        });
     }
     @Test
     void calculateTotalStockCount() {

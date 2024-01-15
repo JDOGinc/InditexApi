@@ -1,6 +1,6 @@
 package com.jdog.apirest.infrastructure;
 
-import com.jdog.apirest.domain.model.Product;
+import com.jdog.apirest.domain.model.*;
 import com.jdog.apirest.domain.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,21 +20,16 @@ public class ProductRepositoryImplIntegrationTest {
 
     @Test
     public void findAllReturnsSortedProducts() {
-        double salesWeight = 0.5;
-        double stockWeight = 0.5;
+        CriterionScore criteria = new CriterionScoreDefault();
+        criteria = new CriterionScoreSalesCriterion(criteria, 1);
+        criteria = new CriterionScoreStockCriterion(criteria, 1);
+
         int productIdWithHighestScore = 5;
-        List<Product> products = productRepository.findAll(salesWeight, stockWeight);
+        List<Product> products = productRepository.findAll(criteria);
 
         assertNotNull(products);
         assertFalse(products.isEmpty());
         assertEquals(productIdWithHighestScore, products.get(0).getId());
 
-    }
-
-    @Test
-    public void whenFindAllWithNegativeWeight_thenGetException() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            productRepository.findAll(-1, -1);
-        });
     }
 }

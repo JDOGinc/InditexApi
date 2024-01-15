@@ -1,4 +1,5 @@
 package com.jdog.apirest.application.usecase;
+import com.jdog.apirest.domain.model.CriterionScore;
 import com.jdog.apirest.domain.model.Product;
 import com.jdog.apirest.domain.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ public class SortProductsUseCase {
         this.productRepository = productRepository;
     }
 
-    public List<Product> execute(double salesWeight, double stockWeight) {
-        return  productRepository.findAll(salesWeight, stockWeight);
+    public List<Product> execute(CriterionScore criteria) {
+        return  productRepository.findAll(criteria);
     }
 }
