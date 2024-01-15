@@ -19,18 +19,21 @@ public class ProductController {
     @GetMapping("/sortProducts")
     public List<Product> sortProducts(@RequestParam double salesWeight, @RequestParam double stockWeight){
         try {
-            if (salesWeight < 0 || stockWeight < 0) {
-                throw new IllegalArgumentException("Negative Weight");
-            }
-            CriterionScore criteria = new CriterionScoreDefault();
-            criteria = new CriterionScoreSalesCriterion(criteria, salesWeight);
-            criteria = new CriterionScoreStockCriterion(criteria, stockWeight);
+            validateWeight(salesWeight, stockWeight);
+            CriterionSort criterionSort = CriterionSort.createCriterionSortByStockSales(salesWeight, stockWeight);
 
-            return sortProductsUseCase.execute(criteria);
+            return sortProductsUseCase.execute(criterionSort);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Negative Weight");
         }
     }
+
+    private static void validateWeight(double salesWeight, double stockWeight) {
+        if (salesWeight < 0 || stockWeight < 0) {
+            throw new IllegalArgumentException("Negative Weight");
+        }
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);

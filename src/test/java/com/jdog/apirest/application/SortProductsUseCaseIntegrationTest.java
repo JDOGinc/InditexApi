@@ -2,7 +2,6 @@ package com.jdog.apirest.application;
 
 import com.jdog.apirest.application.usecase.SortProductsUseCase;
 import com.jdog.apirest.domain.model.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +21,7 @@ public class SortProductsUseCaseIntegrationTest {
     private SortProductsUseCase sortProductsUseCase;
     @Test
     public void testExecuteIntegration_thenReturnSortedList() {
-        CriterionScore criteria = new CriterionScoreDefault();
+        CriterionScore criteria = new CriterionScoreZero();
         criteria = new CriterionScoreSalesCriterion(criteria, 1);
         criteria = new CriterionScoreStockCriterion(criteria, 1);
 

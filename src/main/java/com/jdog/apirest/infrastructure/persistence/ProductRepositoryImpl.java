@@ -29,8 +29,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         return products.stream()
                 .map(productMapper::toDomain)
                 .sorted(Comparator.comparingDouble((Product p) -> {
-                    p.calculateScoreByCriteria(criteria);
-                    return p.getScore();
+                    return p.calculateScoreByCriteria(criteria);
                 }).reversed()).collect(Collectors.toList());
     }
 }

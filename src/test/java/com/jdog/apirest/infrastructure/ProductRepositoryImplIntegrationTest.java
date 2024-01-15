@@ -20,7 +20,7 @@ public class ProductRepositoryImplIntegrationTest {
 
     @Test
     public void findAllReturnsSortedProducts() {
-        CriterionScore criteria = new CriterionScoreDefault();
+        CriterionScore criteria = new CriterionScoreZero();
         criteria = new CriterionScoreSalesCriterion(criteria, 1);
         criteria = new CriterionScoreStockCriterion(criteria, 1);
 
